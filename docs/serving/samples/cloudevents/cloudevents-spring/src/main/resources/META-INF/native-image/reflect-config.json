@@ -1,0 +1,8 @@
+[
+	{
+		"name": "org.knative.examples.cloudevents.spring.Foo",
+		"allDeclaredConstructors": true, 
+		"allDeclaredMethods": true 
+	}
+
+]

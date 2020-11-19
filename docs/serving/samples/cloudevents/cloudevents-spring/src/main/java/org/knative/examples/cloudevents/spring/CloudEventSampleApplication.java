@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.function.cloudevent.CloudEventAttributesProvider;
 import org.springframework.cloud.function.cloudevent.CloudEventMessageUtils;
 import org.springframework.cloud.function.web.util.HeaderUtils;
@@ -41,8 +40,8 @@ public class CloudEventSampleApplication {
 	@Bean
 	@ConditionalOnExpression("'${K_SINK:}'!=''")
 	public Consumer<Message<Map<String, Object>>> sink(CloudEventAttributesProvider provider,
-			RestTemplateBuilder builder, @Value("${K_SINK}") String url) {
-		RestTemplate client = builder.build();
+			@Value("${K_SINK}") String url) {
+		RestTemplate client = new RestTemplate();
 		return message -> client.exchange(RequestEntity.post(URI.create(url))
 				.headers(HeaderUtils
 						.fromMessage(new MessageHeaders(CloudEventMessageUtils.generateAttributes(message, provider))))
